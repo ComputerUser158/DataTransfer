@@ -1,0 +1,30 @@
+﻿@model OlympicViewModel
+@{
+    ViewData["Title"] = "Country Details";
+}
+
+<h2>Country Details</h2>
+
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <ul class="list-group text-center">
+            <li class="list-group-item">
+                <img src="@Url.Content(@Model.Country.FlagImage)" alt="" width=200 height=100 />
+                <h3>@Model.Country.CountryName</h3>
+            </li>
+            <li class="list-group-item">
+                <h4>Game: @Model.Country.Game.GameName</h4>
+            </li>
+            <li class="list-group-item">
+                <h4>Sport: @Model.Country.Sport.SportName</h4>
+            </li>
+            <li class="list-group-item">
+                <a asp-action="Index"
+                   asp-route-game="@Model.ActiveGame"
+                   asp-route-sport="@Model.ActiveSport">
+                    Return to Home Page
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
