@@ -30,16 +30,11 @@
         <ul class="list-inline">
             @foreach (Country country in Model.Countries)
             {
-                <li class="list-inline-item">
-                    <form asp-action="Details" method="post">
-                        <button class="bg-light border-0 m-1" type="submit">
-                            <img src="@Url.Content(country.FlagImage)" alt="@country.FlagImage" width=200 height=100
-                                 title="@country.CountryName | @country.Game.GameName @country.Sport.SportName" />
-                        </button>
-                        <input type="hidden" asp-for="@country.CountryID" />
-                        <input type="hidden" asp-for="ActiveGame" />
-                        <input type="hidden" asp-for="ActiveSport" />
-                    </form>
+                <li class="list-inline-item bg-dark">
+                    <a asp-action="Details" asp-route-id="@country.CountryID">
+                        <img src="@Url.Content(country.FlagImage)" alt="@country.FlagImage" width=200 height=100
+                             title="@country.CountryName | @country.Game.GameName @country.Sport.SportName" />
+                    </a>
                 </li>
             }
         </ul>

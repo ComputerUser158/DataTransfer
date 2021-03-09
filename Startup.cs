@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +10,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using dataTransfer.Models;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace OlympicTeamsRoster
 {
@@ -26,7 +27,6 @@ namespace OlympicTeamsRoster
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
             services.AddDbContext<OlympicContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("OlympicContext")));
 
@@ -36,7 +36,15 @@ namespace OlympicTeamsRoster
                 options.AppendTrailingSlash = true;
             });
 
-            services.AddControllersWithViews();
+            services.AddMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(60 * 5);
+                options.Cookie.HttpOnly = false;
+                options.Cookie.IsEssential = true;  //Session Cookie is required. 
+            });
+            //^ Must be before AddControllersWithViews()
+            services.AddControllersWithViews().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +66,8 @@ namespace OlympicTeamsRoster
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();   //Default timeout is 20 minutes - Must be before UseEndpoints
 
             app.UseEndpoints(endpoints =>
             {

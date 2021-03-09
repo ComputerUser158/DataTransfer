@@ -8,8 +8,6 @@ namespace dataTransfer.Models
     public class OlympicListViewModel : OlympicViewModel
     {
         public List<Country> Countries { get; set; }
-        public string ActiveGame { get; set; }
-        public string ActiveSport { get; set; }
 
         private List<Game> games;
         public List<Game> Games
