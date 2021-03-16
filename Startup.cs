@@ -41,9 +41,8 @@ namespace OlympicTeamsRoster
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(60 * 5);
                 options.Cookie.HttpOnly = false;
-                options.Cookie.IsEssential = true;  //Session Cookie is required. 
+                options.Cookie.IsEssential = true;  //Session Cookie required. 
             });
-            //^ Must be before AddControllersWithViews()
             services.AddControllersWithViews().AddNewtonsoftJson();
         }
 
@@ -67,13 +66,13 @@ namespace OlympicTeamsRoster
 
             app.UseAuthorization();
 
-            app.UseSession();   //Default timeout is 20 minutes - Must be before UseEndpoints
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "custom",
-                    pattern: "{controller}/{action}/game/{activeGame}/sport/{activeSport}");
+                    pattern: "{controller=Home}/{action=Index}/game/{activeGame}/sport/{activeSport}");
 
                 endpoints.MapControllerRoute(
                     name: "default",
